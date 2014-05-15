@@ -135,9 +135,8 @@ def deal():
     
 
 def hit():
-    global my_value, outcome, score, in_play, first_round, order
+    global my_value, outcome, score, in_play, order
     if in_play ==  True:
-        first_round = False
         my_hand.add_card(deck.deal_card())
         dealer_value = dealer_hand.get_value()
         my_value = my_hand.get_value()
@@ -158,10 +157,9 @@ def stand():
     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
     global dealer_value, outcome, in_play, score, my_value, dealer_value, first_round, order
     if in_play ==  True:
-        first_round = False
-        in_play = False
         dealer_value = dealer_hand.get_value()
         my_value = my_hand.get_value()
+        in_play = False
         while dealer_value < 17:
             dealer_hand.add_card(deck.deal_card())
             dealer_value = dealer_hand.get_value()
@@ -177,8 +175,8 @@ def stand():
             outcome = "You lose"
             score -= 1
             order = "New deal?"
-               
     return
+
 def reset_score():
     global score, in_play
     score = 0
@@ -203,7 +201,7 @@ def draw(canvas):
     dealer_hand.draw(canvas, [100, 100])
     canvas.draw_text(outcome, (20, 500), 40, 'Red')
     canvas.draw_text("Your score: "+ str(score), (320, 40), 40, 'Yellow')
-    if first_round:
+    if in_play:
         canvas.draw_image(card_back, CARD_BACK_CENTER , CARD_BACK_SIZE, [CARD_BACK_SIZE[0]+135,100+CARD_BACK_CENTER[1]], CARD_BACK_SIZE)
     else:
         dealer_hand.draw(canvas, [100, 100])
